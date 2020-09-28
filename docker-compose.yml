@@ -20,6 +20,5 @@ services:
 
   composer:
     image: composer:1.9
-    command: ["composer", "install"]
     volumes:
       - ./src:/app
