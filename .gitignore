@@ -2,8 +2,10 @@
 vendor
 php.xml
 composer.lock
+.idea/composerJson.xml
 .idea/.gitignore
 .idea/misc.xml
 .idea/modules.xml
 .idea/search-nearest-pharmacy.iml
 .idea/vcs.xml
+error_log
