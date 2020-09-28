@@ -1,4 +1,4 @@
-.PHONY: start stop composer-install composer-update test-http-call
+.PHONY: start stop composer-install composer-update test test-http-call
 
 start:
 	docker-compose up -d
@@ -11,6 +11,9 @@ composer-install:
 
 composer-update:
 	docker-compose run composer update
+
+test:
+	./src/vendor/phpunit/phpunit/phpunit --bootstrap src/autoload.php tests
 
 test-http-call:
 	curl -X POST http://myapp.loc/ -H "Content-Type: application/json" -d '{"id":1,"jsonrpc":"2.0","method":"add","params":[1, 2]}'
