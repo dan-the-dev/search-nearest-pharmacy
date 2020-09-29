@@ -7,13 +7,13 @@ stop:
 	docker-compose down
 
 composer-install:
-	docker-compose run composer install
+	docker-compose run --rm --no-deps composer install
 
 composer-update:
-	docker-compose run composer update
+	docker-compose run --rm --no-deps composer update
 
 test:
-	./src/vendor/phpunit/phpunit/phpunit --bootstrap src/autoload.php tests
+	docker-compose run --rm --no-deps phpunit
 
 test-http-call:
-	curl -X POST http://myapp.loc/ -H "Content-Type: application/json" -d '{"id":1,"jsonrpc":"2.0","method":"add","params":[1, 2]}'
+	curl -X POST http://myapp.loc/ -H "Content-Type: application/json" -d '{"id":1,"jsonrpc":"2.0","method":"SearchNearestPharmacy","params":{"currentLocation":{"latitude":41.10938993,"longitude":15.032101},"range":5000,"limit":2}}'

@@ -2,10 +2,10 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Datto\JsonRpc\Http\Examples\Evaluator;
 use Datto\JsonRpc\Http\Examples\AuthenticatedServer;
+use infrastructure\RequestHandler;
 
-$evaluator = new Evaluator();
-$server = new AuthenticatedServer($evaluator);
+$requestHandler = new RequestHandler();
+$server = new AuthenticatedServer($requestHandler);
 
 $server->reply();
