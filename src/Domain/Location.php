@@ -7,19 +7,27 @@ class Location
     private $latitude;
     private $longitude;
 
-    public function __construct(float $latitude, float $longitude)
+    public function __construct(string $latitude, string $longitude)
     {
         $this->latitude = $latitude;
         $this->longitude = $longitude;
     }
 
-    public function latitude(): float
+    public function latitude(): string
     {
         return $this->latitude;
     }
 
-    public function longitude(): float
+    public function longitude(): string
     {
         return $this->longitude;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+        ];
     }
 }

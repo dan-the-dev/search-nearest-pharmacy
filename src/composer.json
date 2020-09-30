@@ -1,6 +1,7 @@
 {
     "require": {
-        "datto/json-rpc-http": "^5.0"
+        "datto/json-rpc-http": "^5.0",
+        "treffynnon/navigator": "1.*"
     },
     "autoload": {
         "classmap": [

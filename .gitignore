@@ -1,5 +1,6 @@
 
 src/vendor
+src/.phpunit.result.cache
 php.xml
 src/composer.lock
 .idea/composerJson.xml
