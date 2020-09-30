@@ -8,6 +8,17 @@ class SearchNearestPharmacy
 {
     public static function search(SearchNearestPharmacyRequest $request)
     {
-        return $request->range();
+        return [
+            'pharmacies' => [
+                [
+                    'name' => 'pharmacyName',
+                    'distance' => 123,
+                    'location' => [
+                        'latitude' => 123,
+                        'longitude' => 532
+                    ]
+                ]
+            ]
+        ];
     }
 }

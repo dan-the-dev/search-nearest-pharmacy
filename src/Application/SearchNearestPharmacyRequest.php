@@ -2,7 +2,7 @@
 
 namespace Application;
 
-use Domain\CurrentLocation;
+use Domain\Location;
 
 class SearchNearestPharmacyRequest
 {
@@ -10,14 +10,14 @@ class SearchNearestPharmacyRequest
     private $range;
     private $limit;
 
-    public function __construct(CurrentLocation $currentLocation, int $range, int $limit)
+    public function __construct(Location $currentLocation, int $range, int $limit)
     {
         $this->currentLocation = $currentLocation;
         $this->range = $range;
         $this->limit = $limit;
     }
 
-    public function currentLocation(): CurrentLocation
+    public function currentLocation(): Location
     {
         return $this->currentLocation;
     }

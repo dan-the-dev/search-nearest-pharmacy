@@ -4,7 +4,7 @@ namespace infrastructure;
 
 use Application\SearchNearestPharmacyRequest;
 use Datto\JsonRpc\Evaluator as JsonRpcEvaluator;
-use Domain\CurrentLocation;
+use Domain\Location;
 use Domain\SearchNearestPharmacy;
 
 class RequestHandler implements JsonRpcEvaluator
@@ -29,7 +29,7 @@ class RequestHandler implements JsonRpcEvaluator
             throw new \Exception();
         }
 
-        $request = new SearchNearestPharmacyRequest(new CurrentLocation($latitude, $longitude), $range, $limit);
+        $request = new SearchNearestPharmacyRequest(new Location($latitude, $longitude), $range, $limit);
         return SearchNearestPharmacy::search($request);
     }
 }

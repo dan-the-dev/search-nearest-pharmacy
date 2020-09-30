@@ -1,4 +1,4 @@
-.PHONY: start stop composer-install composer-update test test-http-call
+.PHONY: start stop composer-install composer-update composer-dump-autoload test test-http-call
 
 start:
 	docker-compose up -d
@@ -11,6 +11,9 @@ composer-install:
 
 composer-update:
 	docker-compose run --rm --no-deps composer update
+
+composer-dump-autoload:
+	docker-compose run --rm --no-deps composer composer dump-autoload
 
 test:
 	docker-compose run --rm --no-deps phpunit

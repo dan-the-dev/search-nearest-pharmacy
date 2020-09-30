@@ -2,23 +2,23 @@
 
 namespace Domain;
 
-class CurrentLocation
+class Location
 {
     private $latitude;
     private $longitude;
 
-    public function __construct(int $latitude, int $longitude)
+    public function __construct(float $latitude, float $longitude)
     {
         $this->latitude = $latitude;
         $this->longitude = $longitude;
     }
 
-    public function latitude(): int
+    public function latitude(): float
     {
         return $this->latitude;
     }
 
-    public function longitude(): int
+    public function longitude(): float
     {
         return $this->longitude;
     }
