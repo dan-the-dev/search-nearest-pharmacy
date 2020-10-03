@@ -2,9 +2,9 @@
 
 namespace Domain;
 
-use Application\SearchNearestPharmacyRequest;
 use Closure;
 use Treffynnon\Navigator as Navigator;
+use Application\SearchNearestPharmacyRequest;
 use Treffynnon\Navigator\Distance\Calculator\Haversine as Haversine;
 
 class SearchNearestPharmacy

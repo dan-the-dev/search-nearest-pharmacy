@@ -1,0 +1,43 @@
+{
+  "features": [{
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [15.11105952, 41.16866648]
+    },
+    "properties": {
+      "Descrizione": "FARMACIA PADULA SNC DI PASQUALE PADULA E C."
+    }
+  },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [15.0324625, 41.10938993]
+      },
+      "properties": {
+        "Descrizione": "Belmonte Di Dott.sse Belmonte S. Ed E. Snc"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [15.03335296, 41.19565934]
+      },
+      "properties": {
+        "Descrizione": "FLOVILLA MARIO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [15.01483472, 41.24274462]
+      },
+      "properties": {
+        "Descrizione": "IORIO EMILIO"
+      }
+    }
+  ]
+}

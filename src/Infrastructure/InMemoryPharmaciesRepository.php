@@ -7,13 +7,13 @@ use Domain\Pharmacy;
 
 class InMemoryPharmaciesRepository implements PharmaciesRepository
 {
-    const DATA_PATH = __DIR__ . DIRECTORY_SEPARATOR . "pharmacies.json";
+    const DEFAULT_DATA_PATH = __DIR__ . DIRECTORY_SEPARATOR . 'pharmacies.json';
 
     private array $pharmacies;
 
-    public function __construct()
+    public function __construct(string $dataPath = null)
     {
-        $rawPharmacies = (json_decode(file_get_contents(self::DATA_PATH), true))['features'];
+        $rawPharmacies = (json_decode(file_get_contents($dataPath ?? self::DEFAULT_DATA_PATH), true))['features'];
         $this->pharmacies = array_map(function ($rawPharmacy) {
             return Pharmacy::fromArray($rawPharmacy);
         }, $rawPharmacies);
