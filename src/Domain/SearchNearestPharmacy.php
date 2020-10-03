@@ -4,36 +4,33 @@ namespace Domain;
 
 use Application\SearchNearestPharmacyRequest;
 use Closure;
-use infrastructure\InMemoryPharmaciesRepository;
 use Treffynnon\Navigator as Navigator;
 use Treffynnon\Navigator\Distance\Calculator\Haversine as Haversine;
 
 class SearchNearestPharmacy
 {
-    public function search(SearchNearestPharmacyRequest $request)
+    /**
+     * Get all pharmacies, then filter and order them by distance, returning only result required in limit.
+     *
+     * @param SearchNearestPharmacyRequest $request
+     * @param PharmaciesRepository $pharmaciesRepository
+     * @return array<PharmacyWithDistance>
+     */
+    public function search(SearchNearestPharmacyRequest $request, PharmaciesRepository $pharmaciesRepository): array
     {
-        $pharmacies = (new InMemoryPharmaciesRepository())->getAllPharmacies();
-        /**
-         * @var array<PharmacyWithDistance> $pharmaciesWithDistance
-         */
+        $pharmacies = $pharmaciesRepository->getAllPharmacies();
+        /** @var array<PharmacyWithDistance> $pharmaciesWithDistance */
         $pharmaciesWithDistance = array_map($this->pharmacyWithDistance($request), $pharmacies);
-        $pharmaciesWithDistance = array_values(array_filter($pharmaciesWithDistance, function(PharmacyWithDistance $pharmacyWithDistance) use ($request) {
-            return $pharmacyWithDistance->distance() <= $request->range();
-        }));
-        /**
-         * @var PharmacyWithDistance $pharmacyWithDistance
-         */
-        $limitedPharmaciesWithDistance = empty($pharmaciesWithDistance) ? null : array_slice($pharmaciesWithDistance, 0, $request->limit());
-        $responsePharmacies = array_map($this->responsePharmacies(), $limitedPharmaciesWithDistance);
-
-        return [
-            'pharmacies' => [
-                $responsePharmacies
-            ]
-        ];
+        usort($pharmaciesWithDistance, $this->orderByDistance());
+        $pharmaciesWithDistance = array_values(array_filter($pharmaciesWithDistance, $this->pharmaciesInDistance($request)));
+        /** @var PharmacyWithDistance $pharmacyWithDistance */
+        $limitedPharmaciesWithDistance = array_slice($pharmaciesWithDistance, 0, $request->limit());
+        return array_map($this->responsePharmacies(), $limitedPharmaciesWithDistance);
     }
 
     /**
+     * Calculate distance to pharmacy info.
+     *
      * @param SearchNearestPharmacyRequest $request
      * @return Closure
      */
@@ -47,6 +44,33 @@ class SearchNearestPharmacy
     }
 
     /**
+     * Callback useful to order pharmacies by distance, the closest first.
+     *
+     * @return Closure
+     */
+    private function orderByDistance(): Closure
+    {
+        return function (PharmacyWithDistance $previous,PharmacyWithDistance $next) {
+            return $previous->distance() < $next->distance();
+        };
+    }
+
+    /**
+     * Callback useful to filter pharmacies removing the ones with distance bigger then requested.
+     *
+     * @param SearchNearestPharmacyRequest $request
+     * @return Closure
+     */
+    private function pharmaciesInDistance(SearchNearestPharmacyRequest $request): Closure
+    {
+        return function (PharmacyWithDistance $pharmacyWithDistance) use ($request) {
+            return $pharmacyWithDistance->distance() <= $request->range();
+        };
+    }
+
+    /**
+     * Turn pharmacies objects to expected response format.
+     *
      * @return Closure
      */
     private function responsePharmacies(): Closure

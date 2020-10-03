@@ -30,6 +30,9 @@ class RequestHandler implements JsonRpcEvaluator
         }
 
         $request = new SearchNearestPharmacyRequest(new Location($latitude, $longitude), $range, $limit);
-        return (new SearchNearestPharmacy())->search($request);
+        $pharmacies = (new SearchNearestPharmacy())->search($request, new InMemoryPharmaciesRepository());
+        return [
+            'pharmacies' => $pharmacies
+        ];
     }
 }
