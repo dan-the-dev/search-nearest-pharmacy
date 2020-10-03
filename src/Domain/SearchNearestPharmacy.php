@@ -16,18 +16,19 @@ class SearchNearestPharmacy
         /**
          * @var array<PharmacyWithDistance> $pharmaciesWithDistance
          */
-        $pharmaciesWithDistance = array_map($this->getPharmacyWithDistance($request), $pharmacies);
+        $pharmaciesWithDistance = array_map($this->pharmacyWithDistance($request), $pharmacies);
         $pharmaciesWithDistance = array_values(array_filter($pharmaciesWithDistance, function(PharmacyWithDistance $pharmacyWithDistance) use ($request) {
             return $pharmacyWithDistance->distance() <= $request->range();
         }));
         /**
          * @var PharmacyWithDistance $pharmacyWithDistance
          */
-        $pharmacyWithDistance = empty($pharmaciesWithDistance) ? null : $pharmaciesWithDistance[0];
+        $limitedPharmaciesWithDistance = empty($pharmaciesWithDistance) ? null : array_slice($pharmaciesWithDistance, 0, $request->limit());
+        $responsePharmacies = array_map($this->responsePharmacies(), $limitedPharmaciesWithDistance);
 
         return [
             'pharmacies' => [
-                $pharmacyWithDistance ? $pharmacyWithDistance->toArray() : []
+                $responsePharmacies
             ]
         ];
     }
@@ -36,7 +37,7 @@ class SearchNearestPharmacy
      * @param SearchNearestPharmacyRequest $request
      * @return Closure
      */
-    private function getPharmacyWithDistance(SearchNearestPharmacyRequest $request): Closure
+    private function pharmacyWithDistance(SearchNearestPharmacyRequest $request): Closure
     {
         return function (Pharmacy $pharmacy) use ($request) {
             $distanceCalculator = Navigator::distanceFactory($request->currentLocation()->latitude(), $request->currentLocation()->longitude(), $pharmacy->location()->latitude(), $pharmacy->location()->longitude());
@@ -44,4 +45,15 @@ class SearchNearestPharmacy
             return new PharmacyWithDistance($pharmacy, $distance);
         };
     }
+
+    /**
+     * @return Closure
+     */
+    private function responsePharmacies(): Closure
+    {
+        return function (PharmacyWithDistance $pharmacyWithDistance) {
+            return $pharmacyWithDistance->toArray();
+        };
+    }
+
 }
