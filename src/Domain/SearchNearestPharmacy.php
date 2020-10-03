@@ -9,16 +9,22 @@ use Treffynnon\Navigator\Distance\Calculator\Haversine as Haversine;
 
 class SearchNearestPharmacy
 {
+    private PharmaciesRepository $pharmaciesRepository;
+
+    public function __construct(PharmaciesRepository $pharmaciesRepository)
+    {
+        $this->pharmaciesRepository = $pharmaciesRepository;
+    }
+
     /**
      * Get all pharmacies, then filter and order them by distance, returning only result required in limit.
      *
      * @param SearchNearestPharmacyRequest $request
-     * @param PharmaciesRepository $pharmaciesRepository
      * @return array<PharmacyWithDistance>
      */
-    public function search(SearchNearestPharmacyRequest $request, PharmaciesRepository $pharmaciesRepository): array
+    public function search(SearchNearestPharmacyRequest $request): array
     {
-        $pharmacies = $pharmaciesRepository->getAllPharmacies();
+        $pharmacies = $this->pharmaciesRepository->getAllPharmacies();
         /** @var array<PharmacyWithDistance> $pharmaciesWithDistance */
         $pharmaciesWithDistance = array_map($this->pharmacyWithDistance($request), $pharmacies);
         usort($pharmaciesWithDistance, $this->orderByDistance());
