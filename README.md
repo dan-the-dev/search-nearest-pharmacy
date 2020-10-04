@@ -8,15 +8,21 @@ Add the following line to your /etc/hosts file (you might need administrator rig
 
 `127.0.0.1 myapp.loc`
 
-Install docker-compose (check [here](https://docs.docker.com/compose/install/) for how to do it).
+Install docker (check [here](https://docs.docker.com/compose/install/) for how to do it) and start it on your machine (docker-compose command will work properly only when Docker is running).
 
 Run the following commands:
 
 `make composer-install`
 
-then: 
+then:
 
 `make start`
+
+Once started, the JSON RPC service via HTTP will be available.
+
+You can stop everything with the command:
+
+`make stop`
 
 ## Test the server
 
@@ -43,3 +49,10 @@ we might set up a volume with the file and load the content on container startup
 for a different approach on PHP code, a deeper look into the library used for JSON RPC via HTTP would be needed
 - automated test is mainly for the general business logic: this is because I didn't found good abstraction for it; 
 the only other thing tested is the repository
+- encapsulated some domain object into classes (Pharmacy, Location, ecc)
+- encapsulated Request in an object so we have a reusable input independet from transfer protocol (HTTP in this case)
+
+In general, all choiches has been taken considering the following priorities:
+- time: since it is for a job apply, I want to deliver this in a week max; more time is probably inappropriate in this situation
+- domain: the main "stuff" of this assignment is the "search nearest pharmacies" business; main focus on that, things around can be replaced easily
+- quality: I wanted nevertheless keep a good quality on code, but with a good balance with time and domain needs

@@ -12,7 +12,7 @@ use Exception;
 class RequestHandler implements JsonRpcEvaluator
 {
     private PharmaciesRepository $pharmaciesRepository;
-
+    
     public function __construct(PharmaciesRepository $pharmaciesRepository)
     {
         $this->pharmaciesRepository = $pharmaciesRepository;
@@ -43,7 +43,7 @@ class RequestHandler implements JsonRpcEvaluator
         }
 
         $request = new SearchNearestPharmacyRequest(new Location($latitude, $longitude), $range, $limit);
-        $pharmacies = (new SearchNearestPharmacy(new InMemoryPharmaciesRepository()))->search($request);
+        $pharmacies = (new SearchNearestPharmacy($this->pharmaciesRepository))->search($request);
 
         return [
             'pharmacies' => $pharmacies
