@@ -11,7 +11,7 @@ class SearchNearestPharmacyTest extends TestCase
 {
     public function testItReturnsOnlyPharmaciesInDistanceRange(): void
     {
-        $searchNearestPharmacy = new SearchNearestPharmacy(new InMemoryPharmaciesRepository(__DIR__ . DIRECTORY_SEPARATOR . 'pharmacies_test.json'));
+        $searchNearestPharmacy = new SearchNearestPharmacy(new InMemoryPharmaciesRepository(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'pharmacies_test.json'));
         $request = new SearchNearestPharmacyRequest(new Location('41.10938993', '15.032101'), 3850000, 3);
 
         $actual = $searchNearestPharmacy->search($request);

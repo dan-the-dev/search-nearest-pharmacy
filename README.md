@@ -32,11 +32,12 @@ You can also run tests:
 
 ## A couple notes on the solution
 
-- external library to handle JSON RPC (no need to reinvent the wheel, standard solution is ok)
-- nginx config is a basic solution found on the web; is probably viable for optimization
+- I used an external library to handle JSON RPC: there was no need to reinvent it
+- Nginx config is a basic solution I found on the web; is a good solution for simple situations, i'm not a ninja on it 
+so I tried to simplify it a bit but is probably viable for more optimization
 - phpunit tests and composer command run on specific container, sharing volumes between them and the app container
-- ...
-- in order to load data on server start, a possible approach would be to handle it with docker compose configuration 
-would be needed in order to set up a volume with the file and load the content on container startup; 
-for a different approach on PHP code, a deeper look into the library used for JSON RPC via HTTP would be needed 
-- automated test is only for the general business logic
+- in order to load data on server start, a possible approach would be to handle it with docker compose configuration: 
+we might set up a volume with the file and load the content on container startup; 
+for a different approach on PHP code, a deeper look into the library used for JSON RPC via HTTP would be needed
+- automated test is mainly for the general business logic: this is because I didn't found good abstraction for it; 
+the only other thing tested is the repository
