@@ -4,11 +4,13 @@ JSON RPC service to find nearest pharmacy from a given location.
 
 ## Run the server
 
-Add the following line to your /etc/hosts file:
+Add the following line to your /etc/hosts file (you might need administrator rights):
 
 `127.0.0.1 myapp.loc`
 
-Run the following commands: 
+Install docker-compose (check [here](https://docs.docker.com/compose/install/) for how to do it).
+
+Run the following commands:
 
 `make composer-install`
 
